@@ -14,6 +14,11 @@ class InformationResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $list=parent::toArray($request);
+        $list['created_at']=$this->created_at->format('d/m/Y');
+        $list['category_name']=$this->category->name;
+        $list['category_color']=$this->category->color;
+        return  $list;
+
     }
 }

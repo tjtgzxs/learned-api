@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\InformationResource;
 use App\Models\Information;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,7 @@ class InformationController extends Controller
      */
     public function index()
     {
-        return Information::all();
+        return InformationResource::collection(Information::orderBy('id', 'desc')->get());
     }
 
     /**
@@ -28,7 +30,15 @@ class InformationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //get params
+        $params = $request->all();
+        //create new information
+        $information = new Information();
+        $information->fact = $params['fact'];
+        $information->category_id = $params['category_id'];
+        $information->source = $params['source'];
+         $information->save();
+        return InformationResource::collection(Information::orderBy('id', 'desc')->get());
     }
 
     /**
