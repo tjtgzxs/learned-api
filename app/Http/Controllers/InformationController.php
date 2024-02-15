@@ -6,6 +6,7 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\InformationResource;
 use App\Models\Information;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class InformationController extends Controller
 {
@@ -14,11 +15,21 @@ class InformationController extends Controller
      */
     public function index(Request $request)
     {
-        if(!empty($request->category_id)){
-
-            return InformationResource::collection(Information::where('category_id', $request->category_id)->orderBy('id', 'desc')->get());
+        if(!empty($request->category_id)&&$request->category_id!=0){
+            if(Cache::get('information_'.$request->category_id)){
+                return Cache::get('information_'.$request->category_id);
+            }
+            $list=InformationResource::collection(Information::where('category_id', $request->category_id)->orderBy('id', 'desc')->get());
+            Cache::put('information_'.$request->category_id, $list, 60);
+            return $list;
         }
-        return InformationResource::collection(Information::orderBy('id', 'desc')->get());
+        if(Cache::get('information_all')){
+            return Cache::get('information_all');
+        }
+
+        $list= InformationResource::collection(Information::orderBy('id', 'desc')->get());
+        Cache::put('information_all', $list, 60);
+        return $list;
     }
 
     /**
