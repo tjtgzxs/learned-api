@@ -12,8 +12,12 @@ class InformationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if(!empty($request->category_id)){
+
+            return InformationResource::collection(Information::where('category_id', $request->category_id)->orderBy('id', 'desc')->get());
+        }
         return InformationResource::collection(Information::orderBy('id', 'desc')->get());
     }
 

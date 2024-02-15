@@ -18,4 +18,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::resource('information', \App\Http\Controllers\InformationController::class);
+Route::get('information/search/{category_id}', [\App\Http\Controllers\InformationController::class, 'index']);
 Route::resource('category', \App\Http\Controllers\CategoryController::class);
