@@ -19,4 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::resource('information', \App\Http\Controllers\InformationController::class);
 Route::get('information/search/{category_id}', [\App\Http\Controllers\InformationController::class, 'index']);
+Route::post('information/interesting/{category_id}', [\App\Http\Controllers\InformationController::class, 'increaseInteresting']);
+Route::post('information/false/{category_id}', [\App\Http\Controllers\InformationController::class, 'increaseFalse']);
+Route::post('information/mindBlowing/{category_id}', [\App\Http\Controllers\InformationController::class, 'increaseMindBlowing']);
+
 Route::resource('category', \App\Http\Controllers\CategoryController::class);

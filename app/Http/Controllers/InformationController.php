@@ -56,6 +56,18 @@ class InformationController extends Controller
         return InformationResource::collection(Information::orderBy('id', 'desc')->get());
     }
 
+    public  function increaseInteresting(Request $request){
+        DB::table('information')->increment('voteInteresting', 1, ['id' => $request->id]);
+        return InformationResource::collection(Information::orderBy('id', 'desc')->get());
+    }
+    public  function increaseFalse(Request $request){
+        DB::table('information')->increment('voteFalse', 1, ['id' => $request->id]);
+        return InformationResource::collection(Information::orderBy('id', 'desc')->get());
+    }
+    public  function increaseMindBlowing(Request $request){
+        DB::table('information')->increment('voteMindBlowing', 1, ['id'=> $request->id]);
+        return InformationResource::collection(Information::orderBy('id', 'desc')->get());
+    }
     /**
      * Display the specified resource.
      */
