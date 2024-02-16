@@ -7,6 +7,7 @@ use App\Http\Resources\InformationResource;
 use App\Models\Information;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class InformationController extends Controller
 {
@@ -57,15 +58,15 @@ class InformationController extends Controller
     }
 
     public  function increaseInteresting(Request $request){
-        DB::table('information')->increment('voteInteresting', 1, ['id' => $request->id]);
+        DB::table('information')->where('id',$request->id)->increment('voteInteresting', 1);
         return InformationResource::collection(Information::orderBy('id', 'desc')->get());
     }
     public  function increaseFalse(Request $request){
-        DB::table('information')->increment('voteFalse', 1, ['id' => $request->id]);
+        DB::table('information')->where('id',$request->id)->increment('voteFalse', 1);
         return InformationResource::collection(Information::orderBy('id', 'desc')->get());
     }
     public  function increaseMindBlowing(Request $request){
-        DB::table('information')->increment('voteMindBlowing', 1, ['id'=> $request->id]);
+        DB::table('information')->where('id',$request->id)->increment('voteMindBlowing', 1);
         return InformationResource::collection(Information::orderBy('id', 'desc')->get());
     }
     /**
